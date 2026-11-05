@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sobre — UNIQ</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👕</text></svg>">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    /* ─── About Hero ─── */
+    .about-hero {
+      background: var(--primary);
+      padding: 140px 0 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .about-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(255,107,43,0.15), transparent 70%);
+    }
+    .about-hero-content { position: relative; z-index: 1; }
+    .about-hero h1 { font-size: clamp(2rem,5vw,3.5rem); color: var(--white); font-weight: 800; margin-bottom: var(--space-md); }
+    .about-hero p { color: rgba(255,255,255,0.65); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+
+    /* ─── Mission/Vision/Values ─── */
+    .mvv-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-lg); }
+    .mvv-card {
+      padding: var(--space-xl);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--gray-200);
+      text-align: center;
+      transition: all var(--transition-normal);
+    }
+    .mvv-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-4px); border-color: transparent; }
+    .mvv-card:nth-child(2) { background: var(--primary); color: var(--white); border-color: transparent; }
+    .mvv-card:nth-child(2) h3 { color: var(--white); }
+    .mvv-card:nth-child(2) p { color: rgba(255,255,255,0.7); }
+    .mvv-icon { font-size: 2.5rem; margin-bottom: var(--space-md); }
+    .mvv-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: var(--space-sm); }
+    .mvv-card p { font-size: 0.875rem; color: var(--gray-500); line-height: 1.7; }
+
+    /* ─── Timeline ─── */
+    .timeline { position: relative; padding: 0; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 24px;
+      top: 0; bottom: 0;
+      width: 2px;
+      background: var(--gray-200);
+    }
+    .timeline-item { display: flex; gap: var(--space-xl); margin-bottom: var(--space-xl); position: relative; }
+    .timeline-dot {
+      width: 48px; height: 48px; border-radius: 50%;
+      background: var(--white); border: 2px solid var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0; z-index: 1;
+      box-shadow: 0 0 0 4px var(--white);
+    }
+    .timeline-content { flex: 1; padding-top: 10px; }
+    .timeline-date { font-size: 0.75rem; font-weight: 700; color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; }
+    .timeline-content h4 { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+    .timeline-content p { font-size: 0.875rem; color: var(--gray-500); line-height: 1.6; }
+
+    /* ─── Team ─── */
+    .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-lg); }
+    .team-card {
+      text-align: center;
+      padding: var(--space-xl);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-lg);
+      transition: all var(--transition-normal);
+    }
+    .team-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-4px); border-color: transparent; }
+    .team-avatar {
+      width: 80px; height: 80px; border-radius: 50%;
+      margin: 0 auto var(--space-md);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.75rem; font-weight: 800; color: var(--white);
+      font-family: var(--font-display);
+    }
+    .team-name { font-weight: 700; font-size: 0.95rem; margin-bottom: 4px; }
+    .team-role { font-size: 0.75rem; color: var(--gray-400); }
+    .team-links { display: flex; justify-content: center; gap: 8px; margin-top: var(--space-sm); }
+    .team-link { width: 30px; height: 30px; border-radius: 50%; background: var(--gray-100); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; color: var(--gray-500); transition: all var(--transition-fast); }
+    .team-link:hover { background: var(--primary); color: var(--white); }
+
+    /* ─── Stats ─── */
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-lg); text-align: center; }
+    .stat-item { padding: var(--space-xl); }
+    .stat-num { font-family: var(--font-display); font-size: 2.5rem; font-weight: 800; color: var(--white); display: block; }
+    .stat-label { font-size: 0.875rem; color: rgba(255,255,255,0.6); }
+
+    /* ─── Tech stack ─── */
+    .tech-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-md); }
+    .tech-card { padding: var(--space-md) var(--space-lg); border: 1px solid var(--gray-200); border-radius: var(--radius-md); display: flex; align-items: center; gap: var(--space-md); }
+    .tech-icon { font-size: 1.5rem; }
+    .tech-card strong { font-size: 0.875rem; display: block; }
+    .tech-card span { font-size: 0.75rem; color: var(--gray-400); }
+
+    @media (max-width: 1024px) { .team-grid { grid-template-columns: repeat(2, 1fr); } .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 768px) { .mvv-grid { grid-template-columns: 1fr; } .team-grid { grid-template-columns: repeat(2, 1fr); } .tech-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 480px) { .team-grid { grid-template-columns: 1fr; } .stats-grid { grid-template-columns: 1fr 1fr; } }
+  </style>
+</head>
+<body>
+
+<div id="scroll-progress"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="index.html" class="navbar-logo">UN<span>IQ</span></a>
+    <ul class="navbar-links">
+      <li><a href="index.html">Início</a></li>
+      <li><a href="catalogo.html">Catálogo</a></li>
+      <li><a href="produto.html">Customizar</a></li>
+      <li><a href="sobre.html" class="active">Sobre</a></li>
+    </ul>
+    <div class="navbar-actions">
+      <a href="login.html" class="navbar-icon-btn"><i class="fa-regular fa-user"></i></a>
+      <a href="carrinho.html" class="navbar-icon-btn">
+        <i class="fa-solid fa-bag-shopping"></i>
+        <span class="cart-badge">0</span>
+      </a>
+      <a href="produto.html" class="btn btn-primary btn-sm navbar-cta">
+        <i class="fa-solid fa-wand-magic-sparkles"></i> Personalizar
+      </a>
+      <div class="hamburger"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+</nav>
+<div class="mobile-menu">
+  <a href="index.html">Início</a><a href="catalogo.html">Catálogo</a>
+  <a href="produto.html">Customizar</a><a href="sobre.html">Sobre</a>
+  <a href="login.html">Entrar</a>
+</div>
+
+<!-- HERO -->
+<div class="about-hero">
+  <div class="container about-hero-content">
+    <span class="section-label">Nossa história</span>
+    <h1>Onde arte encontra<br>a tecnologia têxtil</h1>
+    <p>A UNIQ nasceu da crença de que cada pessoa merece usar algo verdadeiramente único — criado por ela, para ela.</p>
+  </div>
+</div>
+
+<!-- MISSÃO / VISÃO / VALORES -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Propósito</span>
+      <h2 class="section-title">Missão, Visão e Valores</h2>
+    </div>
+    <div class="mvv-grid">
+      <div class="mvv-card fade-in">
+        <div class="mvv-icon">🎯</div>
+        <h3>Missão</h3>
+        <p>Democratizar a personalização de moda por meio de tecnologia acessível, conectando a criatividade do cliente à excelência da estamparia digital.</p>
+      </div>
+      <div class="mvv-card fade-in">
+        <div class="mvv-icon">🚀</div>
+        <h3>Visão</h3>
+        <p>Ser a principal plataforma de e-commerce de moda personalizada do Brasil até 2028, referência em qualidade DTG e experiência de usuário.</p>
+      </div>
+      <div class="mvv-card fade-in">
+        <div class="mvv-icon">💎</div>
+        <h3>Valores</h3>
+        <p>Qualidade sem compromisso · Transparência com o cliente · Inovação contínua · Sustentabilidade · Respeito à propriedade intelectual.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="section-sm" style="background: var(--primary);">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item fade-in">
+        <span class="stat-num">12k+</span>
+        <span class="stat-label">Camisetas entregues</span>
+      </div>
+      <div class="stat-item fade-in">
+        <span class="stat-num">4.9★</span>
+        <span class="stat-label">Avaliação média</span>
+      </div>
+      <div class="stat-item fade-in">
+        <span class="stat-num">100%</span>
+        <span class="stat-label">Conformidade de estampa</span>
+      </div>
+      <div class="stat-item fade-in">
+        <span class="stat-num">7 dias</span>
+        <span class="stat-label">Prazo médio de entrega</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE DO PROJETO -->
+<section class="section">
+  <div class="container container-sm">
+    <div class="section-header">
+      <span class="section-label">Projeto A3 — Gestão e Qualidade de Software</span>
+      <h2 class="section-title">Cronograma do Projeto</h2>
+      <p class="section-subtitle">As 6 fases de desenvolvimento da plataforma UNIQ, com marcos de QA/QC integrados.</p>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item fade-in">
+        <div class="timeline-dot">📋</div>
+        <div class="timeline-content">
+          <div class="timeline-date">06 – 13 out. 2026 · Fase 1</div>
+          <h4>Iniciação e Planejamento</h4>
+          <p>Elaboração do Termo de Abertura do Projeto (TAP), aprovação acadêmica formal, mapeamento de riscos preliminares e definição das diretrizes de Quality Assurance.</p>
+        </div>
+      </div>
+      <div class="timeline-item fade-in">
+        <div class="timeline-dot">🎨</div>
+        <div class="timeline-content">
+          <div class="timeline-date">14 – 23 out. 2026 · Fase 2</div>
+          <h4>Design e Modelagem</h4>
+          <p>Prototipagem de alta fidelidade da interface UI/UX (foco na facilidade de customização em telas móveis) e modelagem da arquitetura de backend e dados.</p>
+        </div>
+      </div>
+      <div class="timeline-item fade-in">
+        <div class="timeline-dot">💻</div>
+        <div class="timeline-content">
+          <div class="timeline-date">24 out. – 10 nov. 2026 · Fase 3</div>
+          <h4>Desenvolvimento</h4>
+          <p>Codificação paralela do customizador visual no front-end, das regras de checkout e microsserviços de apoio no back-end, acompanhada de testes unitários contínuos.</p>
+        </div>
+      </div>
+      <div class="timeline-item fade-in">
+        <div class="timeline-dot">🧪</div>
+        <div class="timeline-content">
+          <div class="timeline-date">11 – 20 nov. 2026 · Fase 4</div>
+          <h4>Testes e Qualidade (QC)</h4>
+          <p>Execução intensiva dos planos de Quality Control: testes de carga nos servidores, homologação de APIs de gateways de pagamento e validação de regressão.</p>
+        </div>
+      </div>
+      <div class="timeline-item fade-in">
+        <div class="timeline-dot">🚀</div>
+        <div class="timeline-content">
+          <div class="timeline-date">21 – 27 nov. 2026 · Fase 5</div>
+          <h4>Homologação e Implantação</h4>
+          <p>Deploy em ambiente de produção em nuvem de alta disponibilidade, configuração de certificados digitais SSL, domínio e testes de segurança de dados (LGPD).</p>
+        </div>
+      </div>
+      <div class="timeline-item fade-in">
+        <div class="timeline-dot">🎓</div>
+        <div class="timeline-content">
+          <div class="timeline-date">28 – 30 nov. 2026 · Fase 6</div>
+          <h4>Encerramento</h4>
+          <p>Consolidação da documentação técnica e operacional, aprovação formal dos patrocinadores e entrega da monografia A3.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EQUIPE -->
+<section class="section" style="background: var(--gray-50);">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Time</span>
+      <h2 class="section-title">Nossa equipe</h2>
+      <p class="section-subtitle">8 profissionais multidisciplinares unidos pelo mesmo objetivo: entregar software de qualidade.</p>
+    </div>
+    <div class="team-grid">
+      <div class="team-card fade-in">
+        <div class="team-avatar" style="background: #FF6B2B;">LR</div>
+        <div class="team-name">Vinicius Silva Labruna</div>
+        <div class="team-role">Gerente de Projeto</div>
+        <div class="team-links">
+          <a href="#" class="team-link"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="#" class="team-link"><i class="fa-brands fa-github"></i></a>
+        </div>
+      </div>
+      <div class="team-card fade-in">
+        <div class="team-avatar" style="background: #3B82F6;">WO</div>
+        <div class="team-name">Willes Nilson de Oliveira</div>
+        <div class="team-role">Analista de Requisitos</div>
+        <div class="team-links">
+          <a href="#" class="team-link"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="#" class="team-link"><i class="fa-brands fa-github"></i></a>
+        </div>
+      </div>
+      <div class="team-card fade-in">
+        <div class="team-avatar" style="background: #EC4899;">GM</div>
+        <div class="team-name">Gabrielle Marques Silva</div>
+        <div class="team-role">Designer de UI/UX</div>
+        <div class="team-links">
+          <a href="#" class="team-link"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="#" class="team-link"><i class="fa-brands fa-figma"></i></a>
+        </div>
+      </div>
+      <div class="team-card fade-in">
+        <div class="team-avatar" style="background: #22C55E;">KS</div>
+        <div class="team-name">Kauã Miguel Oliveira Silva</div>
+        <div class="team-role">Desenvolvedor Front-End Líder</div>
+        <div class="team-links">
+          <a href="#" class="team-link"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="#" class="team-link"><i class="fa-brands fa-github"></i></a>
+        </div>
+      </div>
+      <div class="team-card fade-in">
+        <div class="team-avatar" style="background: #6366F1;">TL</div>
+        <div class="team-name">Thiago Lima</div>
+        <div class="team-role">Desenvolvedor Back-End Líder</div>
+        <div class="team-links">
+          <a href="#" class="team-link"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="#" class="team-link"><i class="fa-brands fa-github"></i></a>
+        </div>
+      </div>
+      <div class="team-card fade-in">
+        <div class="team-avatar" style="background: #F59E0B;">KP</div>
+        <div class="team-name">Kerlon Luan Pereira dos Santos</div>
+        <div class="team-role">Engenheiro de DevOps & Cloud</div>
+        <div class="team-links">
+          <a href="#" class="team-link"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="#" class="team-link"><i class="fa-brands fa-github"></i></a>
+        </div>
+      </div>
+      <div class="team-card fade-in">
+        <div class="team-avatar" style="background: #EF4444;">NG</div>
+        <div class="team-name">Naegeli Raiane Guerra</div>
+        <div class="team-role">Analista de QA</div>
+        <div class="team-links">
+          <a href="#" class="team-link"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="#" class="team-link"><i class="fa-brands fa-github"></i></a>
+        </div>
+      </div>
+      <div class="team-card fade-in">
+        <div class="team-avatar" style="background: #0EA5E9;">GC</div>
+        <div class="team-name">Guilherme Chaplin Savedra</div>
+        <div class="team-role">Analista de Operações & Logística</div>
+        <div class="team-links">
+          <a href="#" class="team-link"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="#" class="team-link"><i class="fa-brands fa-github"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TECNOLOGIAS -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Stack técnico</span>
+      <h2 class="section-title">Tecnologias utilizadas</h2>
+    </div>
+    <div class="tech-grid">
+      <div class="tech-card fade-in"><div class="tech-icon">🌐</div><div><strong>HTML5 Semântico</strong><span>Estrutura da interface</span></div></div>
+      <div class="tech-card fade-in"><div class="tech-icon">🎨</div><div><strong>CSS3 + Custom Properties</strong><span>Design system e estilos</span></div></div>
+      <div class="tech-card fade-in"><div class="tech-icon">⚡</div><div><strong>JavaScript ES6+</strong><span>Interatividade e lógica</span></div></div>
+      <div class="tech-card fade-in"><div class="tech-icon">🖼️</div><div><strong>Canvas API</strong><span>Customizador visual</span></div></div>
+      <div class="tech-card fade-in"><div class="tech-icon">☁️</div><div><strong>Cloud Hosting</strong><span>Infraestrutura em nuvem</span></div></div>
+      <div class="tech-card fade-in"><div class="tech-icon">🔒</div><div><strong>SSL + LGPD</strong><span>Segurança e privacidade</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section" style="background: var(--gray-50);">
+  <div class="container">
+    <div class="cta-inner fade-in">
+      <div class="cta-emoji">👕</div>
+      <h2 style="font-size: clamp(1.5rem,3vw,2.25rem);color:var(--white)">
+        Pronto para criar sua<br><span class="text-accent">camiseta única?</span>
+      </h2>
+      <p style="color:rgba(255,255,255,0.6);font-size:1rem;margin-bottom:var(--space-xl)">
+        Aplique toda a qualidade do projeto UNIQ na sua próxima estampa.
+      </p>
+      <div class="cta-actions">
+        <a href="produto.html" class="btn btn-primary btn-lg">
+          <i class="fa-solid fa-wand-magic-sparkles"></i> Personalizar agora
+        </a>
+        <a href="catalogo.html" class="btn btn-outline btn-lg" style="color:rgba(255,255,255,0.8);border-color:rgba(255,255,255,0.3)">
+          Ver catálogo
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="navbar-logo">UN<span>IQ</span></span>
+        <p>Plataforma de e-commerce especializada em camisetas personalizadas com tecnologia DTG/DTF.</p>
+        <div class="footer-socials">
+          <a href="#" class="footer-social-btn"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" class="footer-social-btn"><i class="fa-brands fa-tiktok"></i></a>
+          <a href="#" class="footer-social-btn"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>
+      </div>
+      <div class="footer-col"><h4>Loja</h4><ul>
+        <li><a href="catalogo.html">Catálogo</a></li>
+        <li><a href="produto.html">Customizar</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Suporte</h4><ul>
+        <li><a href="#">Rastrear pedido</a></li>
+        <li><a href="#">Fale conosco</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Empresa</h4><ul>
+        <li><a href="sobre.html">Sobre a UNIQ</a></li>
+        <li><a href="#">Privacidade (LGPD)</a></li>
+      </ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 UNIQ. Todos os direitos reservados. · Projeto A3 — Gestão e Qualidade de Software · Ânima Educação</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

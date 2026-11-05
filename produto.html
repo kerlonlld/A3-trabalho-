@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customizar Camiseta — UNIQ</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👕</text></svg>">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/produto.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<div id="scroll-progress"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar scrolled">
+  <div class="navbar-inner">
+    <a href="index.html" class="navbar-logo">UN<span>IQ</span></a>
+    <ul class="navbar-links">
+      <li><a href="index.html">Início</a></li>
+      <li><a href="catalogo.html">Catálogo</a></li>
+      <li><a href="produto.html" class="active">Customizar</a></li>
+      <li><a href="sobre.html">Sobre</a></li>
+    </ul>
+    <div class="navbar-actions">
+      <a href="login.html" class="navbar-icon-btn"><i class="fa-regular fa-user"></i></a>
+      <a href="carrinho.html" class="navbar-icon-btn">
+        <i class="fa-solid fa-bag-shopping"></i>
+        <span class="cart-badge">0</span>
+      </a>
+      <div class="hamburger"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+</nav>
+<div class="mobile-menu">
+  <a href="index.html">Início</a>
+  <a href="catalogo.html">Catálogo</a>
+  <a href="produto.html">Customizar</a>
+  <a href="sobre.html">Sobre</a>
+  <a href="carrinho.html" style="color:var(--accent)">🛍️ Carrinho</a>
+</div>
+
+<!-- BREADCRUMB -->
+<div class="product-breadcrumb-bar container">
+  <div class="breadcrumb">
+    <a href="index.html">Início</a>
+    <span class="breadcrumb-sep">›</span>
+    <a href="catalogo.html">Catálogo</a>
+    <span class="breadcrumb-sep">›</span>
+    <span>Customizar Camiseta</span>
+  </div>
+</div>
+
+<!-- MAIN PRODUCT LAYOUT -->
+<div class="product-layout container">
+
+  <!-- LEFT: Gallery -->
+  <div class="product-gallery">
+    <div class="gallery-thumbnails" id="gallery-thumbs">
+      <button class="gallery-thumb active" data-idx="0">
+        <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=100&q=70&fit=crop" alt="Frente">
+      </button>
+      <button class="gallery-thumb" data-idx="1">
+        <img src="https://images.unsplash.com/photo-1562157873-818bc0726f68?w=100&q=70&fit=crop" alt="Costas">
+      </button>
+      <button class="gallery-thumb" data-idx="2">
+        <img src="https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?w=100&q=70&fit=crop" alt="Detalhe">
+      </button>
+      <button class="gallery-thumb" data-idx="3">
+        <img src="https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=100&q=70&fit=crop" alt="Tecido">
+      </button>
+    </div>
+    <div class="gallery-main">
+      <img id="gallery-main-img"
+           src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=700&q=85&fit=crop"
+           alt="Camiseta UNIQ">
+      <div class="gallery-zoom-hint"><i class="fa-solid fa-magnifying-glass-plus"></i> Clique para ampliar</div>
+    </div>
+  </div>
+
+  <!-- CENTER: Customizer -->
+  <div class="product-customizer">
+    <div class="customizer-header">
+      <h2>Customizador Visual</h2>
+      <p class="text-muted text-sm">Faça upload da sua arte e posicione como desejar</p>
+    </div>
+
+    <!-- Side selector -->
+    <div class="side-selector">
+      <button class="side-btn active" data-side="frente">
+        <i class="fa-solid fa-shirt"></i> Frente
+      </button>
+      <button class="side-btn" data-side="costas">
+        <i class="fa-regular fa-square"></i> Costas
+      </button>
+    </div>
+
+    <!-- Mockup canvas area -->
+    <div class="mockup-area" id="mockup-area">
+      <div class="mockup-wrapper" id="mockup-wrapper">
+        <img id="mockup-img"
+             src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500&q=85&fit=crop"
+             alt="Mockup da camiseta"
+             class="mockup-image">
+
+        <!-- Print zone indicator -->
+        <div class="print-zone" id="print-zone">
+          <div class="print-zone-label">Área de impressão</div>
+
+          <!-- User art overlay -->
+          <div class="art-overlay hidden" id="art-overlay">
+            <img id="art-img" src="" alt="Sua arte">
+            <div class="art-controls">
+              <button class="art-ctrl-btn" id="art-delete" title="Remover arte">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+              <div class="art-drag-indicator">
+                <i class="fa-solid fa-up-down-left-right"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Upload button -->
+    <div class="upload-area" id="upload-area">
+      <input type="file" id="art-upload" accept="image/png,image/jpeg,image/svg+xml" hidden>
+      <label for="art-upload" class="upload-label">
+        <div class="upload-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+        <div class="upload-text">
+          <strong>Clique para fazer upload da sua arte</strong>
+          <span>PNG, JPG ou SVG • Máx. 10MB</span>
+        </div>
+      </label>
+    </div>
+  </div>
+
+  <!-- RIGHT: Product Info -->
+  <div class="product-info">
+    <div class="product-info-sticky">
+      <div class="product-badges-row">
+        <span class="product-badge badge-hot">Mais vendido</span>
+        <span class="product-rating">★ 4.9 <span class="text-muted">(238 avaliações)</span></span>
+      </div>
+
+      <h1 class="product-title">Básica Premium UNIQ</h1>
+      <p class="product-desc">Camiseta 100% algodão penteado 30.1, corte regular unissex. Estampagem digital DTG/DTF de alta resolução.</p>
+
+      <!-- Price -->
+      <div class="product-price-block">
+        <div class="product-main-price">R$ 59,90</div>
+        <div class="product-price-info">
+          ou 3x de R$ 19,97 sem juros
+          <span class="pix-badge"><i class="fa-brands fa-pix"></i> 5% de desconto no PIX</span>
+        </div>
+      </div>
+
+      <!-- Color selector -->
+      <div class="option-group">
+        <label class="option-label">
+          Cor: <strong id="selected-color-name">Branca</strong>
+        </label>
+        <div class="color-swatches">
+          <button class="swatch active" style="background:#FFFFFF; border:2px solid #ddd;" data-color="branca" data-name="Branca" title="Branca"></button>
+          <button class="swatch" style="background:#1A1A1A;" data-color="preta" data-name="Preta" title="Preta"></button>
+          <button class="swatch" style="background:#9E9E9E;" data-color="cinza" data-name="Cinza" title="Cinza"></button>
+          <button class="swatch" style="background:#3B82F6;" data-color="azul" data-name="Azul" title="Azul"></button>
+          <button class="swatch" style="background:#22C55E;" data-color="verde" data-name="Verde" title="Verde"></button>
+          <button class="swatch" style="background:#EF4444;" data-color="vermelha" data-name="Vermelha" title="Vermelha"></button>
+          <button class="swatch" style="background:#F59E0B;" data-color="amarela" data-name="Amarela" title="Amarela"></button>
+          <button class="swatch" style="background:#EC4899;" data-color="rosa" data-name="Rosa" title="Rosa"></button>
+        </div>
+      </div>
+
+      <!-- Size selector -->
+      <div class="option-group">
+        <label class="option-label">
+          Tamanho: <strong id="selected-size-name">—</strong>
+          <a href="#" class="size-guide-link">Guia de tamanhos</a>
+        </label>
+        <div class="size-selector">
+          <button class="size-btn" data-size="P">P</button>
+          <button class="size-btn" data-size="M">M</button>
+          <button class="size-btn" data-size="G">G</button>
+          <button class="size-btn" data-size="GG">GG</button>
+          <button class="size-btn unavailable" data-size="XG" title="Indisponível">XG</button>
+        </div>
+      </div>
+
+      <!-- Quantity -->
+      <div class="option-group">
+        <label class="option-label">Quantidade</label>
+        <div class="quantity-input">
+          <button class="quantity-btn" id="qty-minus">−</button>
+          <input class="quantity-num" id="qty-input" type="number" value="1" min="1" max="99" readonly>
+          <button class="quantity-btn" id="qty-plus">+</button>
+        </div>
+      </div>
+
+      <!-- Add to cart -->
+      <div class="product-ctas">
+        <button class="btn btn-primary btn-lg add-cart-btn" id="add-to-cart">
+          <i class="fa-solid fa-bag-shopping"></i>
+          Adicionar ao Carrinho
+        </button>
+        <button class="btn btn-outline btn-icon" id="wishlist-btn" title="Favoritar">
+          <i class="fa-regular fa-heart"></i>
+        </button>
+      </div>
+
+      <!-- Shipping estimate -->
+      <div class="shipping-box">
+        <div class="shipping-box-header">
+          <i class="fa-solid fa-truck-fast"></i>
+          Calcular frete
+        </div>
+        <div class="cep-input-row">
+          <input type="text" class="cep-input" placeholder="00000-000" id="cep-input" maxlength="9">
+          <button class="btn btn-dark btn-sm" id="calc-frete">Calcular</button>
+        </div>
+        <div class="shipping-results" id="shipping-results" style="display:none;">
+          <div class="shipping-option">
+            <span><i class="fa-solid fa-box"></i> PAC (Correios)</span>
+            <span>R$ 18,90 — 5 a 8 dias úteis</span>
+          </div>
+          <div class="shipping-option highlight">
+            <span><i class="fa-solid fa-bolt"></i> SEDEX</span>
+            <span>R$ 32,50 — 2 a 3 dias úteis</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Trust badges -->
+      <div class="trust-badges">
+        <div class="trust-badge"><i class="fa-solid fa-shield-halved"></i><span>Compra segura</span></div>
+        <div class="trust-badge"><i class="fa-solid fa-rotate-left"></i><span>Troca garantida</span></div>
+        <div class="trust-badge"><i class="fa-solid fa-award"></i><span>Qualidade DTG</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCT TABS -->
+<div class="product-tabs-section container">
+  <div class="tabs-nav">
+    <button class="tab-btn active" data-tab="descricao">Descrição</button>
+    <button class="tab-btn" data-tab="tamanhos">Tabela de tamanhos</button>
+    <button class="tab-btn" data-tab="avaliações">Avaliações (238)</button>
+    <button class="tab-btn" data-tab="arte">Dicas para sua arte</button>
+  </div>
+
+  <div class="tab-panel active" id="tab-descricao">
+    <div class="tab-content-grid">
+      <div>
+        <h3>Sobre o produto</h3>
+        <p>A camiseta UNIQ Básica Premium é confeccionada em malha 100% algodão penteado 30.1, o mesmo utilizado por marcas premium internacionais. O processo de penteamento remove as fibras curtas, resultando em um tecido mais suave, durável e com melhor acabamento para estampagem.</p>
+        <ul class="detail-list">
+          <li><i class="fa-solid fa-check"></i> 100% Algodão penteado 30.1</li>
+          <li><i class="fa-solid fa-check"></i> Corte regular unissex</li>
+          <li><i class="fa-solid fa-check"></i> Costuras reforçadas duplas</li>
+          <li><i class="fa-solid fa-check"></i> Gola em ribana</li>
+          <li><i class="fa-solid fa-check"></i> Impressão DTG/DTF em alta resolução (300 DPI)</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Cuidados com a peça</h3>
+        <ul class="detail-list">
+          <li><i class="fa-solid fa-shirt"></i> Lavar à máquina temperatura máx. 30°C</li>
+          <li><i class="fa-solid fa-rotate-left"></i> Lavar ao avesso para preservar a estampa</li>
+          <li><i class="fa-solid fa-xmark"></i> Não usar alvejante</li>
+          <li><i class="fa-solid fa-xmark"></i> Não passar ferro sobre a estampa</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-panel" id="tab-tamanhos">
+    <table class="size-table">
+      <thead>
+        <tr><th>Tamanho</th><th>Largura (cm)</th><th>Comprimento (cm)</th><th>Manga (cm)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>P</strong></td><td>48</td><td>68</td><td>21</td></tr>
+        <tr><td><strong>M</strong></td><td>51</td><td>71</td><td>22</td></tr>
+        <tr><td><strong>G</strong></td><td>55</td><td>74</td><td>23</td></tr>
+        <tr><td><strong>GG</strong></td><td>59</td><td>77</td><td>24</td></tr>
+        <tr><td><strong>XG</strong></td><td>63</td><td>80</td><td>25</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tab-panel" id="tab-avaliações">
+    <div class="reviews-summary">
+      <div class="reviews-score">
+        <div class="reviews-score-num">4.9</div>
+        <div class="reviews-stars">★★★★★</div>
+        <div class="reviews-total">238 avaliações</div>
+      </div>
+      <div class="reviews-bars">
+        <div class="review-bar"><span>5★</span><div class="bar-track"><div class="bar-fill" style="width:85%"></div></div><span>85%</span></div>
+        <div class="review-bar"><span>4★</span><div class="bar-track"><div class="bar-fill" style="width:10%"></div></div><span>10%</span></div>
+        <div class="review-bar"><span>3★</span><div class="bar-track"><div class="bar-fill" style="width:3%"></div></div><span>3%</span></div>
+        <div class="review-bar"><span>2★</span><div class="bar-track"><div class="bar-fill" style="width:1%"></div></div><span>1%</span></div>
+        <div class="review-bar"><span>1★</span><div class="bar-track"><div class="bar-fill" style="width:1%"></div></div><span>1%</span></div>
+      </div>
+    </div>
+    <div class="reviews-list">
+      <div class="review-item">
+        <div class="review-header">
+          <div class="review-avatar">M</div>
+          <div><strong>Maria C.</strong><div class="review-stars">★★★★★</div></div>
+          <span class="review-date">15 out. 2026</span>
+        </div>
+        <p>"Ficou incrível! A qualidade do tecido é excelente e a estampa saiu perfeita. Super recomendo!"</p>
+        <div class="review-tags"><span>✅ Compra verificada</span></div>
+      </div>
+      <div class="review-item">
+        <div class="review-header">
+          <div class="review-avatar" style="background:#6366F1">J</div>
+          <div><strong>João P.</strong><div class="review-stars">★★★★★</div></div>
+          <span class="review-date">08 out. 2026</span>
+        </div>
+        <p>"O customizador é muito fácil de usar e o resultado final foi exatamente o que eu queria. Já pedi mais 3!"</p>
+        <div class="review-tags"><span>✅ Compra verificada</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-panel" id="tab-arte">
+    <div class="art-tips-grid">
+      <div class="art-tip-card">
+        <div class="art-tip-icon">📐</div>
+        <h4>Resolução mínima</h4>
+        <p>Use imagens com no mínimo <strong>300 DPI</strong> para garantir nitidez na impressão. Recomendamos 2400×2400px.</p>
+      </div>
+      <div class="art-tip-card">
+        <div class="art-tip-icon">🎨</div>
+        <h4>Fundo transparente</h4>
+        <p>Para melhor resultado, use arquivos <strong>PNG com fundo transparente</strong> ou SVG vetorial.</p>
+      </div>
+      <div class="art-tip-card">
+        <div class="art-tip-icon">📏</div>
+        <h4>Área de impressão</h4>
+        <p>A área de estampa frontal é de <strong>30×35 cm</strong>. Mantenha margens de 2cm das bordas.</p>
+      </div>
+      <div class="art-tip-card">
+        <div class="art-tip-icon">🌈</div>
+        <h4>Cores vibrantes</h4>
+        <p>Nossa tecnologia DTG reproduz fielmente cores RGB. Perfil de cor <strong>sRGB</strong> recomendado.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="navbar-logo">UN<span>IQ</span></span>
+        <p>Plataforma de e-commerce especializada em camisetas personalizadas com tecnologia DTG/DTF.</p>
+        <div class="footer-socials">
+          <a href="#" class="footer-social-btn"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" class="footer-social-btn"><i class="fa-brands fa-tiktok"></i></a>
+          <a href="#" class="footer-social-btn"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>
+      </div>
+      <div class="footer-col"><h4>Loja</h4><ul>
+        <li><a href="catalogo.html">Catálogo</a></li>
+        <li><a href="produto.html">Customizar</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Suporte</h4><ul>
+        <li><a href="#">Rastrear pedido</a></li>
+        <li><a href="#">Fale conosco</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Empresa</h4><ul>
+        <li><a href="sobre.html">Sobre a UNIQ</a></li>
+        <li><a href="#">Privacidade (LGPD)</a></li>
+      </ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 UNIQ. Todos os direitos reservados.</span>
+      <div class="footer-badges">
+        <span class="footer-badge">🔒 SSL</span>
+        <span class="footer-badge">💳 PIX • Cartão • Boleto</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script src="js/customizador.js"></script>
+</body>
+</html>

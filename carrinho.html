@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carrinho — UNIQ</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👕</text></svg>">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    .cart-page { padding-top: 100px; padding-bottom: var(--space-3xl); min-height: 100vh; background: var(--gray-50); }
+    .cart-layout { display: grid; grid-template-columns: 1fr 380px; gap: var(--space-xl); align-items: start; padding-top: var(--space-xl); }
+    .cart-items-col { background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--gray-200); overflow: hidden; }
+    .cart-col-header { display: flex; justify-content: space-between; align-items: center; padding: var(--space-lg) var(--space-xl); border-bottom: 1px solid var(--gray-100); }
+    .cart-col-header h2 { font-size: 1.1rem; font-weight: 700; }
+    .cart-clear-btn { font-size: 0.8rem; color: var(--error); cursor: pointer; }
+    .cart-item { display: grid; grid-template-columns: 100px 1fr auto; gap: var(--space-md); align-items: center; padding: var(--space-lg) var(--space-xl); border-bottom: 1px solid var(--gray-100); transition: background var(--transition-fast); }
+    .cart-item:hover { background: var(--gray-50); }
+    .cart-item:last-child { border-bottom: none; }
+    .cart-item-img { width: 100px; height: 100px; object-fit: cover; border-radius: var(--radius-md); border: 1px solid var(--gray-200); }
+    .cart-item-name { font-weight: 700; font-size: 0.95rem; margin-bottom: 4px; }
+    .cart-item-meta { font-size: 0.8rem; color: var(--gray-400); margin-bottom: var(--space-md); }
+    .cart-item-price { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; color: var(--primary); white-space: nowrap; text-align: right; }
+    .cart-item-remove { font-size: 0.75rem; color: var(--error); cursor: pointer; display: block; margin-top: 8px; }
+    .cart-item-remove:hover { text-decoration: underline; }
+
+    /* Summary */
+    .cart-summary { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: var(--space-xl); position: sticky; top: 90px; }
+    .cart-summary h3 { font-size: 1rem; font-weight: 700; margin-bottom: var(--space-lg); padding-bottom: var(--space-md); border-bottom: 1px solid var(--gray-100); }
+    .summary-row { display: flex; justify-content: space-between; font-size: 0.875rem; color: var(--gray-700); margin-bottom: 10px; }
+    .summary-row.total { font-size: 1.1rem; font-weight: 800; color: var(--primary); border-top: 1px solid var(--gray-200); padding-top: var(--space-md); margin-top: var(--space-md); }
+    .coupon-row { display: flex; gap: 8px; margin: var(--space-md) 0; }
+    .coupon-input { flex: 1; padding: 10px 14px; border: 1.5px solid var(--gray-200); border-radius: var(--radius-sm); font-size: 0.875rem; outline: none; }
+    .coupon-input:focus { border-color: var(--accent); }
+    .cep-row { display: flex; gap: 8px; margin-bottom: var(--space-md); }
+    .cep-row input { flex: 1; padding: 10px 14px; border: 1.5px solid var(--gray-200); border-radius: var(--radius-sm); font-size: 0.875rem; outline: none; }
+    .cep-row input:focus { border-color: var(--accent); }
+    .summary-label { font-size: 0.75rem; font-weight: 600; color: var(--gray-500); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .checkout-btn { width: 100%; margin-top: var(--space-lg); }
+    .payment-icons { display: flex; gap: 8px; justify-content: center; margin-top: var(--space-md); }
+    .pay-icon { background: var(--gray-100); border-radius: 4px; padding: 4px 8px; font-size: 0.65rem; color: var(--gray-500); font-weight: 600; }
+
+    /* Empty */
+    .cart-empty { text-align: center; padding: var(--space-3xl); }
+    .cart-empty-emoji { font-size: 4rem; margin-bottom: var(--space-md); }
+    .cart-empty h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: var(--space-sm); }
+    .cart-empty p { color: var(--gray-500); margin-bottom: var(--space-xl); }
+
+    @media (max-width: 768px) {
+      .cart-layout { grid-template-columns: 1fr; }
+      .cart-summary { position: static; }
+      .cart-item { grid-template-columns: 80px 1fr; }
+      .cart-item-price { grid-column: 2; }
+    }
+  </style>
+</head>
+<body>
+<nav class="navbar scrolled">
+  <div class="navbar-inner">
+    <a href="index.html" class="navbar-logo">UN<span>IQ</span></a>
+    <ul class="navbar-links">
+      <li><a href="index.html">Início</a></li>
+      <li><a href="catalogo.html">Catálogo</a></li>
+      <li><a href="produto.html">Customizar</a></li>
+      <li><a href="sobre.html">Sobre</a></li>
+    </ul>
+    <div class="navbar-actions">
+      <a href="login.html" class="navbar-icon-btn"><i class="fa-regular fa-user"></i></a>
+      <a href="carrinho.html" class="navbar-icon-btn">
+        <i class="fa-solid fa-bag-shopping"></i>
+        <span class="cart-badge">0</span>
+      </a>
+      <div class="hamburger"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+</nav>
+<div class="mobile-menu">
+  <a href="index.html">Início</a><a href="catalogo.html">Catálogo</a>
+  <a href="produto.html">Customizar</a><a href="sobre.html">Sobre</a>
+</div>
+
+<div class="cart-page">
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html">Início</a><span class="breadcrumb-sep">›</span><span>Carrinho</span></div>
+    <div id="cart-content"></div>
+  </div>
+</div>
+
+<script src="js/main.js"></script>
+<script>
+function renderCart() {
+  const content = document.getElementById('cart-content');
+  const cart = getCart();
+
+  if (!cart.length) {
+    content.innerHTML = `
+      <div class="cart-empty">
+        <div class="cart-empty-emoji">🛍️</div>
+        <h2>Seu carrinho está vazio</h2>
+        <p>Que tal personalizar uma camiseta incrível?</p>
+        <a href="produto.html" class="btn btn-primary btn-lg"><i class="fa-solid fa-wand-magic-sparkles"></i> Personalizar agora</a>
+      </div>`;
+    return;
+  }
+
+  const subtotal = cart.reduce((s, i) => s + i.price * (i.qty||1), 0);
+  const frete = subtotal >= 150 ? 0 : 18.90;
+  const total = subtotal + frete;
+
+  // Add demo item if cart empty for demo
+  content.innerHTML = `
+    <div class="cart-layout">
+      <div class="cart-items-col">
+        <div class="cart-col-header">
+          <h2>Meu Carrinho <span style="color:var(--gray-400); font-weight:400">(${cart.reduce((s,i)=>s+(i.qty||1),0)} itens)</span></h2>
+          <span class="cart-clear-btn" id="clear-cart">Limpar carrinho</span>
+        </div>
+        <div id="cart-items-list">
+          ${cart.map((item, idx) => `
+            <div class="cart-item" id="cart-item-${idx}">
+              <img class="cart-item-img" src="${item.img || 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=200&q=70'}" alt="${item.name}">
+              <div>
+                <div class="cart-item-name">${item.name}</div>
+                <div class="cart-item-meta">Cor: ${item.color} · Tamanho: ${item.size}</div>
+                <div class="quantity-input" style="max-width:130px">
+                  <button class="quantity-btn" onclick="changeQty(${idx},-1)">−</button>
+                  <input class="quantity-num" value="${item.qty||1}" id="qty-${idx}" readonly>
+                  <button class="quantity-btn" onclick="changeQty(${idx},1)">+</button>
+                </div>
+                <span class="cart-item-remove" onclick="removeItem(${idx})"><i class="fa-solid fa-trash"></i> Remover</span>
+              </div>
+              <div>
+                <div class="cart-item-price">${formatBRL(item.price * (item.qty||1))}</div>
+                <div style="font-size:0.75rem;color:var(--gray-400);text-align:right">${formatBRL(item.price)} cada</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
+      <div class="cart-summary">
+        <h3>Resumo do pedido</h3>
+
+        <div class="summary-label">Cupom de desconto</div>
+        <div class="coupon-row">
+          <input class="coupon-input" placeholder="CÓDIGO" id="coupon-input">
+          <button class="btn btn-outline btn-sm" onclick="applyCoupon()">Aplicar</button>
+        </div>
+
+        <div class="summary-label">Calcular frete</div>
+        <div class="cep-row">
+          <input type="text" id="cep-cart" placeholder="00000-000" maxlength="9">
+          <button class="btn btn-dark btn-sm" onclick="calcFreteCart()">OK</button>
+        </div>
+
+        <div class="summary-row"><span>Subtotal</span><span>${formatBRL(subtotal)}</span></div>
+        <div class="summary-row"><span>Frete</span><span id="frete-val">${frete === 0 ? '🎉 Grátis' : formatBRL(frete)}</span></div>
+        <div class="summary-row"><span>Desconto</span><span id="discount-val">—</span></div>
+        <div class="summary-row total"><span>Total</span><span id="total-val">${formatBRL(total)}</span></div>
+
+        <p style="font-size:0.75rem;color:var(--gray-400);text-align:center;margin-top:var(--space-sm)">
+          ${subtotal >= 150 ? '✅ Frete grátis aplicado!' : `Falta ${formatBRL(150 - subtotal)} para frete grátis`}
+        </p>
+
+        <a href="checkout.html" class="btn btn-primary btn-lg checkout-btn">
+          <i class="fa-solid fa-lock"></i> Finalizar Compra
+        </a>
+
+        <div class="payment-icons">
+          <span class="pay-icon">PIX</span>
+          <span class="pay-icon">VISA</span>
+          <span class="pay-icon">MASTER</span>
+          <span class="pay-icon">BOLETO</span>
+        </div>
+      </div>
+    </div>`;
+
+  document.getElementById('clear-cart')?.addEventListener('click', () => {
+    if (confirm('Limpar todo o carrinho?')) {
+      saveCart([]);
+      renderCart();
+    }
+  });
+
+  // CEP format
+  document.getElementById('cep-cart')?.addEventListener('input', (e) => {
+    let v = e.target.value.replace(/\D/g,'');
+    if (v.length>5) v = v.slice(0,5)+'-'+v.slice(5,8);
+    e.target.value = v;
+  });
+}
+
+function changeQty(idx, delta) {
+  const cart = getCart();
+  cart[idx].qty = Math.max(1, (cart[idx].qty||1) + delta);
+  saveCart(cart);
+  renderCart();
+}
+
+function removeItem(idx) {
+  const cart = getCart();
+  const item = document.getElementById(`cart-item-${idx}`);
+  if (item) {
+    item.style.opacity = '0';
+    item.style.transform = 'translateX(-20px)';
+    item.style.transition = 'all 0.3s ease';
+  }
+  setTimeout(() => {
+    cart.splice(idx, 1);
+    saveCart(cart);
+    renderCart();
+  }, 300);
+}
+
+function applyCoupon() {
+  const code = document.getElementById('coupon-input')?.value.trim().toUpperCase();
+  if (code === 'UNIQ10') {
+    document.getElementById('discount-val').textContent = '−10%';
+    showToast('Cupom UNIQ10 aplicado! 10% de desconto.', 'success');
+  } else {
+    showToast('Cupom inválido ou expirado.', 'error');
+  }
+}
+
+function calcFreteCart() {
+  const cep = document.getElementById('cep-cart')?.value.replace(/\D/g,'');
+  if (cep?.length === 8) {
+    showToast('Frete calculado para o seu CEP!', 'success');
+  } else {
+    showToast('Digite um CEP válido.', 'error');
+  }
+}
+
+// Add demo item if cart is empty (for demonstration)
+if (!getCart().length) {
+  addToCart({id:1, name:'Básica Premium UNIQ', price:59.90, color:'branca', size:'M', qty:1,
+    img:'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=200&q=70'});
+  addToCart({id:2, name:'Oversized Preta', price:79.90, color:'preta', size:'G', qty:2,
+    img:'https://images.unsplash.com/photo-1562157873-818bc0726f68?w=200&q=70'});
+}
+
+renderCart();
+</script>
+</body>
+</html>

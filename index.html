@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UNIQ — Camisetas que contam a sua história</title>
+  <meta name="description" content="Personalize sua camiseta com a arte que você quiser. Algodão premium, entrega rápida, qualidade garantida.">
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👕</text></svg>">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/home.css">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<!-- Scroll Progress -->
+<div id="scroll-progress"></div>
+
+<!-- ═══════════════════════════════════════════
+     NAVBAR
+════════════════════════════════════════════ -->
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="index.html" class="navbar-logo">UN<span>IQ</span></a>
+
+    <ul class="navbar-links">
+      <li><a href="index.html" class="active">Início</a></li>
+      <li><a href="catalogo.html">Catálogo</a></li>
+      <li><a href="produto.html">Customizar</a></li>
+      <li><a href="sobre.html">Sobre</a></li>
+    </ul>
+
+    <div class="navbar-actions">
+      <a href="#" class="navbar-icon-btn" title="Buscar">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </a>
+      <a href="login.html" class="navbar-icon-btn" title="Minha conta">
+        <i class="fa-regular fa-user"></i>
+      </a>
+      <a href="carrinho.html" class="navbar-icon-btn" title="Carrinho">
+        <i class="fa-solid fa-bag-shopping"></i>
+        <span class="cart-badge">0</span>
+      </a>
+      <a href="produto.html" class="btn btn-primary btn-sm navbar-cta">
+        <i class="fa-solid fa-wand-magic-sparkles"></i> Personalizar
+      </a>
+      <div class="hamburger" role="button" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu">
+  <a href="index.html">Início</a>
+  <a href="catalogo.html">Catálogo</a>
+  <a href="produto.html">Customizar</a>
+  <a href="sobre.html">Sobre</a>
+  <a href="login.html">Entrar</a>
+  <a href="carrinho.html" style="color: var(--accent);">🛍️ Carrinho</a>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     HERO
+════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="hero-gradient"></div>
+    <div class="hero-pattern"></div>
+  </div>
+
+  <div class="hero-content container">
+    <div class="hero-text">
+      <div class="hero-badge fade-in">
+        <span class="badge-dot"></span>
+        Novo: Oversized Collection 2026
+      </div>
+      <h1 class="hero-title fade-in">
+        Sua arte,<br>sua <span class="text-accent">camiseta.</span>
+      </h1>
+      <p class="hero-subtitle fade-in">
+        Camisetas 100% algodão penteado 30.1 com personalização total — 
+        você faz o upload, nós estampamos com perfeição.
+      </p>
+      <div class="hero-ctas fade-in">
+        <a href="produto.html" class="btn btn-primary btn-lg">
+          <i class="fa-solid fa-wand-magic-sparkles"></i>
+          Personalizar Agora
+        </a>
+        <a href="catalogo.html" class="btn btn-secondary btn-lg">
+          Ver Catálogo
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+      <div class="hero-stats fade-in">
+        <div class="stat">
+          <strong>+12k</strong><span>camisetas entregues</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <strong>4.9★</strong><span>avaliação média</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <strong>7 dias</strong><span>para produzir e enviar</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-visual fade-in">
+      <div class="hero-tshirt-wrapper">
+        <div class="hero-tshirt-glow"></div>
+        <img src="https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=600&q=80&fit=crop"
+             alt="Camiseta UNIQ personalizada"
+             class="hero-tshirt-img">
+        <div class="hero-floating-card card-top">
+          <i class="fa-solid fa-check-circle" style="color:var(--success)"></i>
+          Arte aprovada para produção!
+        </div>
+        <div class="hero-floating-card card-bottom">
+          <i class="fa-solid fa-truck-fast" style="color:var(--accent)"></i>
+          Enviado para Curitiba, PR 🚀
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-scroll-hint">
+    <span>Role para explorar</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     COMO FUNCIONA
+════════════════════════════════════════════ -->
+<section class="section how-it-works">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Simples assim</span>
+      <h2 class="section-title">Como funciona</h2>
+      <p class="section-subtitle">Em apenas 3 passos sua camiseta sai da sua imaginação para o mundo real.</p>
+    </div>
+
+    <div class="steps-grid">
+      <div class="step-card fade-in">
+        <div class="step-number">01</div>
+        <div class="step-icon">🎨</div>
+        <h3>Escolha e Personalize</h3>
+        <p>Selecione o modelo, cor e tamanho. Depois faça upload da sua arte ou escolha entre nossos designs.</p>
+        <div class="step-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+      </div>
+      <div class="step-card fade-in">
+        <div class="step-number">02</div>
+        <div class="step-icon">✅</div>
+        <h3>Confirme e Pague</h3>
+        <p>Revise o mockup em tempo real, adicione ao carrinho e pague por PIX, cartão ou boleto com total segurança.</p>
+        <div class="step-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+      </div>
+      <div class="step-card fade-in">
+        <div class="step-number">03</div>
+        <div class="step-icon">📦</div>
+        <h3>Receba em Casa</h3>
+        <p>Produzimos com tecnologia DTG/DTF e enviamos para todo o Brasil em até 7 dias úteis com rastreio.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     PRODUTOS EM DESTAQUE
+════════════════════════════════════════════ -->
+<section class="section products-section" style="background: var(--gray-50);">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">Mais vendidos</span>
+      <h2 class="section-title">Produtos em destaque</h2>
+      <p class="section-subtitle">Modelos mais amados pelos nossos clientes. Personalize do seu jeito.</p>
+    </div>
+
+    <div class="products-grid" id="featured-products">
+      <!-- JS rendered -->
+    </div>
+
+    <div style="text-align:center; margin-top: var(--space-2xl);">
+      <a href="catalogo.html" class="btn btn-dark btn-lg">
+        Ver todos os produtos
+        <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     CUSTOMIZADOR PREVIEW
+════════════════════════════════════════════ -->
+<section class="section customizer-preview">
+  <div class="container">
+    <div class="customizer-preview-inner">
+      <div class="customizer-preview-text fade-in">
+        <span class="section-label">Tecnologia exclusiva</span>
+        <h2 class="section-title" style="text-align:left; color:var(--white);">
+          Veja o resultado<br>antes de comprar
+        </h2>
+        <p style="color: rgba(255,255,255,0.65); font-size: 1.05rem; margin-bottom: var(--space-xl);">
+          Nosso customizador em tempo real mostra exatamente como sua arte ficará na camiseta — com prévia do mockup corporal, ajuste de posição e troca de cores.
+        </p>
+        <ul class="feature-list">
+          <li><i class="fa-solid fa-check"></i> Upload de PNG, JPG e SVG</li>
+          <li><i class="fa-solid fa-check"></i> Posicionamento livre (frente e costas)</li>
+          <li><i class="fa-solid fa-check"></i> Preview em 8 opções de cor</li>
+          <li><i class="fa-solid fa-check"></i> Exportação em 300 DPI para DTG/DTF</li>
+        </ul>
+        <a href="produto.html" class="btn btn-primary btn-lg" style="margin-top: var(--space-lg);">
+          <i class="fa-solid fa-wand-magic-sparkles"></i>
+          Experimentar agora
+        </a>
+      </div>
+      <div class="customizer-preview-visual fade-in">
+        <div class="customizer-screen">
+          <div class="customizer-screen-header">
+            <div class="dot red"></div>
+            <div class="dot yellow"></div>
+            <div class="dot green"></div>
+            <span>UNIQ Customizador</span>
+          </div>
+          <div class="customizer-screen-body">
+            <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&q=80&fit=crop"
+                 alt="Mockup camiseta" style="border-radius: 8px; width: 100%;">
+            <div class="customizer-art-preview">
+              <div class="art-drag-handle">⋮⋮</div>
+              <span>Sua arte aqui</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     PROPOSTA DE VALOR
+════════════════════════════════════════════ -->
+<section class="section-sm value-props">
+  <div class="container">
+    <div class="value-props-grid">
+      <div class="value-prop fade-in">
+        <div class="value-icon">🧵</div>
+        <div>
+          <h4>Algodão 30.1 Penteado</h4>
+          <p>Malha premium, macia e durável. 100% algodão puro.</p>
+        </div>
+      </div>
+      <div class="value-prop fade-in">
+        <div class="value-icon">🛡️</div>
+        <div>
+          <h4>Pagamento Seguro</h4>
+          <p>PIX, cartão de crédito e boleto com SSL certificado.</p>
+        </div>
+      </div>
+      <div class="value-prop fade-in">
+        <div class="value-icon">🚚</div>
+        <div>
+          <h4>Entrega para todo Brasil</h4>
+          <p>Rastreio em tempo real. Garantia de chegada.</p>
+        </div>
+      </div>
+      <div class="value-prop fade-in">
+        <div class="value-icon">🔄</div>
+        <div>
+          <h4>Troca Garantida</h4>
+          <p>Problema na estampa? Substituímos sem custo extra.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     DEPOIMENTOS
+════════════════════════════════════════════ -->
+<section class="section testimonials" style="background: var(--gray-50);">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-label">O que dizem nossos clientes</span>
+      <h2 class="section-title">Avaliações reais</h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card fade-in">
+        <div class="testimonial-stars">★★★★★</div>
+        <p>"Ficou incrível! Mandei a arte da minha banda e ficou exatamente como imaginei. Super recomendo!"</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">M</div>
+          <div>
+            <strong>Maria Silva</strong>
+            <span>Curitiba, PR</span>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card fade-in">
+        <div class="testimonial-stars">★★★★★</div>
+        <p>"O customizador é muito fácil de usar. Vi o resultado em tempo real e fiquei impressionado com a qualidade."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar" style="background: #6366F1;">J</div>
+          <div>
+            <strong>João Pereira</strong>
+            <span>São Paulo, SP</span>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card fade-in">
+        <div class="testimonial-stars">★★★★★</div>
+        <p>"Pedi para o aniversário da empresa e ficou perfeito. 10 camisetas, todas iguais e com qualidade excelente."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar" style="background: var(--success);">A</div>
+          <div>
+            <strong>Ana Costa</strong>
+            <span>Porto Alegre, RS</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     CTA FINAL
+════════════════════════════════════════════ -->
+<section class="section cta-section">
+  <div class="container">
+    <div class="cta-inner fade-in">
+      <div class="cta-emoji">👕</div>
+      <h2>Pronto para criar sua<br><span class="text-accent">camiseta única?</span></h2>
+      <p>Junte-se a mais de 12.000 clientes satisfeitos. Sua arte merece estar no mundo.</p>
+      <div class="cta-actions">
+        <a href="produto.html" class="btn btn-primary btn-lg">
+          <i class="fa-solid fa-wand-magic-sparkles"></i>
+          Começar a personalizar
+        </a>
+        <a href="catalogo.html" class="btn btn-outline btn-lg">
+          Explorar catálogo
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="navbar-logo">UN<span>IQ</span></span>
+        <p>Plataforma de e-commerce especializada em camisetas personalizadas com tecnologia de ponta em estamparia digital DTG/DTF.</p>
+        <div class="footer-socials">
+          <a href="#" class="footer-social-btn"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" class="footer-social-btn"><i class="fa-brands fa-tiktok"></i></a>
+          <a href="#" class="footer-social-btn"><i class="fa-brands fa-whatsapp"></i></a>
+          <a href="#" class="footer-social-btn"><i class="fa-brands fa-youtube"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Loja</h4>
+        <ul>
+          <li><a href="catalogo.html">Catálogo</a></li>
+          <li><a href="produto.html">Customizar</a></li>
+          <li><a href="catalogo.html">Lançamentos</a></li>
+          <li><a href="catalogo.html">Mais vendidos</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Suporte</h4>
+        <ul>
+          <li><a href="#">Central de ajuda</a></li>
+          <li><a href="#">Rastrear pedido</a></li>
+          <li><a href="#">Política de troca</a></li>
+          <li><a href="#">Fale conosco</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Empresa</h4>
+        <ul>
+          <li><a href="sobre.html">Sobre a UNIQ</a></li>
+          <li><a href="#">Trabalhe conosco</a></li>
+          <li><a href="#">Privacidade (LGPD)</a></li>
+          <li><a href="#">Termos de uso</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 UNIQ. Todos os direitos reservados.</span>
+      <div class="footer-badges">
+        <span class="footer-badge">🔒 SSL Seguro</span>
+        <span class="footer-badge">📦 Frete rastreado</span>
+        <span class="footer-badge">💳 PIX • Cartão • Boleto</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Scripts -->
+<script src="js/main.js"></script>
+<script>
+  // Featured products data
+  const featuredProducts = [
+    {
+      id: 1, name: 'Básica Premium', desc: 'Gola redonda · Algodão 30.1',
+      price: 59.90, oldPrice: null, badge: 'hot',
+      img: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&q=80&fit=crop'
+    },
+    {
+      id: 2, name: 'Oversized Wave', desc: 'Fit oversized · Algodão 30.1',
+      price: 79.90, oldPrice: 99.90, badge: 'sale',
+      img: 'https://images.unsplash.com/photo-1562157873-818bc0726f68?w=400&q=80&fit=crop'
+    },
+    {
+      id: 3, name: 'Streetwear Edition', desc: 'Gola careca · Drop shoulder',
+      price: 89.90, oldPrice: null, badge: 'new',
+      img: 'https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=400&q=80&fit=crop'
+    },
+    {
+      id: 4, name: 'Classic Fit', desc: 'Corte tradicional · Unissex',
+      price: 54.90, oldPrice: null, badge: null,
+      img: 'https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?w=400&q=80&fit=crop'
+    }
+  ];
+
+  const badges = { hot: 'Mais vendido', new: 'Novo', sale: 'Oferta' };
+  const badgeClass = { hot: 'badge-hot', new: 'badge-new', sale: 'badge-sale' };
+
+  const grid = document.getElementById('featured-products');
+  grid.innerHTML = featuredProducts.map(p => `
+    <div class="product-card fade-in">
+      <div class="product-card-image">
+        ${p.badge ? `<span class="product-badge ${badgeClass[p.badge]}">${badges[p.badge]}</span>` : ''}
+        <img src="${p.img}" alt="${p.name}" loading="lazy">
+        <button class="product-card-wishlist" title="Favoritar"><i class="fa-regular fa-heart"></i></button>
+      </div>
+      <div class="product-card-body">
+        <div class="product-card-name">${p.name}</div>
+        <div class="product-card-desc">${p.desc}</div>
+        <div class="product-card-footer">
+          <div>
+            ${p.oldPrice ? `<span class="product-price-old">${formatBRL(p.oldPrice)}</span>` : ''}
+            <span class="product-price">${formatBRL(p.price)}</span>
+          </div>
+          <a href="produto.html" class="product-card-btn" title="Personalizar">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  // Re-init fade-in for dynamically added cards
+  setTimeout(() => initFadeIn(), 50);
+
+  // Wishlist toggle
+  document.querySelectorAll('.product-card-wishlist').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const icon = btn.querySelector('i');
+      icon.classList.toggle('fa-regular');
+      icon.classList.toggle('fa-solid');
+      btn.style.color = icon.classList.contains('fa-solid') ? 'var(--error)' : '';
+      showToast(icon.classList.contains('fa-solid') ? 'Adicionado aos favoritos!' : 'Removido dos favoritos', 'info');
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout — UNIQ</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👕</text></svg>">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body { background: var(--gray-50); }
+    .checkout-page { padding-top: 90px; min-height: 100vh; }
+    .checkout-header { background: var(--white); border-bottom: 1px solid var(--gray-200); padding: 20px 0; margin-bottom: var(--space-xl); }
+    .checkout-header-inner { display: flex; align-items: center; justify-content: space-between; max-width: var(--max-width); margin: 0 auto; padding: 0 var(--space-lg); }
+    .checkout-layout { display: grid; grid-template-columns: 1fr 400px; gap: var(--space-xl); max-width: var(--max-width); margin: 0 auto; padding: 0 var(--space-lg) var(--space-3xl); }
+
+    /* Stepper */
+    .stepper { display: flex; align-items: center; gap: 0; margin-bottom: var(--space-xl); }
+    .step { display: flex; align-items: center; gap: 10px; flex: 1; }
+    .step-circle {
+      width: 36px; height: 36px; border-radius: 50%;
+      border: 2px solid var(--gray-300); background: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem; font-weight: 700; color: var(--gray-400);
+      flex-shrink: 0; transition: all var(--transition-fast);
+    }
+    .step.active .step-circle { border-color: var(--accent); background: var(--accent); color: var(--white); }
+    .step.done .step-circle { border-color: var(--success); background: var(--success); color: var(--white); }
+    .step-label { font-size: 0.8rem; font-weight: 600; color: var(--gray-400); }
+    .step.active .step-label { color: var(--primary); }
+    .step.done .step-label { color: var(--success); }
+    .step-line { flex: 1; height: 2px; background: var(--gray-200); }
+    .step-line.done { background: var(--success); }
+
+    /* Forms */
+    .checkout-card { background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--gray-200); overflow: hidden; margin-bottom: var(--space-lg); }
+    .checkout-card-header { padding: var(--space-lg) var(--space-xl); border-bottom: 1px solid var(--gray-100); display: flex; align-items: center; gap: 12px; }
+    .checkout-card-header h3 { font-size: 1rem; font-weight: 700; }
+    .checkout-card-num { width: 28px; height: 28px; background: var(--accent); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; flex-shrink: 0; }
+    .checkout-card-body { padding: var(--space-xl); }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); }
+    .form-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+    .form-grid.cols-1 { grid-template-columns: 1fr; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group.full { grid-column: 1 / -1; }
+    .form-label { font-size: 0.8rem; font-weight: 600; color: var(--gray-700); }
+    .form-input {
+      padding: 12px 16px; border: 1.5px solid var(--gray-200); border-radius: var(--radius-sm);
+      font-size: 0.9rem; font-family: inherit; outline: none; color: var(--primary);
+      transition: border-color var(--transition-fast);
+    }
+    .form-input:focus { border-color: var(--accent); }
+
+    /* Payment methods */
+    .payment-tabs { display: flex; gap: 0; border: 1.5px solid var(--gray-200); border-radius: var(--radius-md); overflow: hidden; margin-bottom: var(--space-lg); }
+    .payment-tab {
+      flex: 1; padding: 12px; display: flex; flex-direction: column; align-items: center; gap: 4px;
+      font-size: 0.8rem; font-weight: 600; color: var(--gray-500); cursor: pointer;
+      transition: all var(--transition-fast); background: var(--white); border: none;
+    }
+    .payment-tab:not(:last-child) { border-right: 1.5px solid var(--gray-200); }
+    .payment-tab:hover { background: var(--gray-50); color: var(--primary); }
+    .payment-tab.active { background: var(--accent); color: var(--white); }
+    .payment-tab i { font-size: 1.1rem; }
+
+    .payment-panel { display: none; }
+    .payment-panel.active { display: block; }
+
+    /* PIX */
+    .pix-panel { text-align: center; padding: var(--space-lg); }
+    .pix-qr {
+      width: 160px; height: 160px; background: var(--gray-100);
+      margin: 0 auto var(--space-md); border-radius: var(--radius-md);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; color: var(--gray-400); border: 2px dashed var(--gray-300);
+      flex-direction: column; gap: 8px;
+    }
+    .pix-qr i { font-size: 2rem; color: var(--gray-300); }
+    .pix-code { font-family: monospace; font-size: 0.75rem; background: var(--gray-100); padding: 8px 14px; border-radius: var(--radius-sm); color: var(--gray-500); word-break: break-all; margin-bottom: var(--space-md); }
+
+    /* Order summary sidebar */
+    .order-summary { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: var(--space-xl); position: sticky; top: 90px; }
+    .order-summary h3 { font-size: 1rem; font-weight: 700; margin-bottom: var(--space-lg); padding-bottom: var(--space-md); border-bottom: 1px solid var(--gray-100); }
+    .order-items { display: flex; flex-direction: column; gap: var(--space-md); margin-bottom: var(--space-lg); }
+    .order-item { display: flex; gap: var(--space-md); align-items: center; }
+    .order-item-img { width: 56px; height: 56px; object-fit: cover; border-radius: var(--radius-sm); border: 1px solid var(--gray-200); flex-shrink: 0; }
+    .order-item-info { flex: 1; }
+    .order-item-name { font-size: 0.85rem; font-weight: 600; }
+    .order-item-meta { font-size: 0.75rem; color: var(--gray-400); }
+    .order-item-price { font-size: 0.9rem; font-weight: 700; white-space: nowrap; }
+    .order-divider { height: 1px; background: var(--gray-100); margin: var(--space-md) 0; }
+    .order-row { display: flex; justify-content: space-between; font-size: 0.875rem; color: var(--gray-700); margin-bottom: 8px; }
+    .order-row.total { font-size: 1.1rem; font-weight: 800; color: var(--primary); border-top: 1px solid var(--gray-200); padding-top: var(--space-md); margin-top: var(--space-md); }
+
+    /* Navigation buttons */
+    .checkout-nav { display: flex; gap: var(--space-md); justify-content: space-between; margin-top: var(--space-lg); }
+
+    /* Success screen */
+    .success-screen {
+      display: none;
+      text-align: center;
+      padding: var(--space-3xl);
+      background: var(--white);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--gray-200);
+    }
+    .success-screen.show { display: block; }
+    .success-icon { font-size: 5rem; margin-bottom: var(--space-lg); animation: successBounce 0.6s ease; }
+    @keyframes successBounce {
+      0% { transform: scale(0); opacity: 0; }
+      70% { transform: scale(1.2); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .success-screen h2 { font-size: 2rem; font-weight: 800; margin-bottom: var(--space-sm); }
+    .success-screen p { color: var(--gray-500); font-size: 1rem; margin-bottom: var(--space-xl); }
+    .order-code { background: var(--gray-100); padding: var(--space-md) var(--space-xl); border-radius: var(--radius-md); font-family: monospace; font-size: 1.1rem; font-weight: 700; color: var(--primary); letter-spacing: 0.1em; display: inline-block; margin-bottom: var(--space-xl); }
+    .success-steps { display: flex; justify-content: center; gap: var(--space-xl); margin-bottom: var(--space-xl); }
+    .success-step { text-align: center; }
+    .success-step-icon { font-size: 2rem; margin-bottom: 8px; }
+    .success-step span { font-size: 0.8rem; color: var(--gray-500); }
+
+    @media (max-width: 768px) {
+      .checkout-layout { grid-template-columns: 1fr; }
+      .order-summary { position: static; }
+      .form-grid { grid-template-columns: 1fr; }
+      .form-grid.cols-3 { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="checkout-page">
+  <!-- Minimal header -->
+  <div class="checkout-header">
+    <div class="checkout-header-inner">
+      <a href="index.html" class="navbar-logo" style="font-family:var(--font-display);font-size:1.5rem;font-weight:800;color:var(--primary)">
+        UN<span style="color:var(--accent)">IQ</span>
+      </a>
+      <div style="display:flex;align-items:center;gap:8px;font-size:0.8rem;color:var(--gray-500)">
+        <i class="fa-solid fa-lock" style="color:var(--success)"></i>
+        Pagamento 100% seguro
+      </div>
+      <a href="carrinho.html" style="font-size:0.875rem;color:var(--gray-500)">
+        <i class="fa-solid fa-arrow-left"></i> Voltar ao carrinho
+      </a>
+    </div>
+  </div>
+
+  <div class="checkout-layout">
+    <div class="checkout-main">
+      <!-- Stepper -->
+      <div class="stepper" id="stepper">
+        <div class="step active" id="step-1">
+          <div class="step-circle" id="circle-1">1</div>
+          <div class="step-label">Identificação</div>
+        </div>
+        <div class="step-line" id="line-1"></div>
+        <div class="step" id="step-2">
+          <div class="step-circle" id="circle-2">2</div>
+          <div class="step-label">Entrega</div>
+        </div>
+        <div class="step-line" id="line-2"></div>
+        <div class="step" id="step-3">
+          <div class="step-circle" id="circle-3">3</div>
+          <div class="step-label">Pagamento</div>
+        </div>
+      </div>
+
+      <!-- Success Screen -->
+      <div class="success-screen" id="success-screen">
+        <div class="success-icon">🎉</div>
+        <h2>Pedido realizado!</h2>
+        <p>Seu pedido foi confirmado e está sendo preparado com carinho.</p>
+        <div class="order-code" id="order-code">UNIQ-2026-XXXX</div>
+        <div class="success-steps">
+          <div class="success-step"><div class="success-step-icon">📋</div><span>Pedido confirmado</span></div>
+          <div class="success-step"><div class="success-step-icon">🎨</div><span>Em produção</span></div>
+          <div class="success-step"><div class="success-step-icon">📦</div><span>Enviado</span></div>
+          <div class="success-step"><div class="success-step-icon">🏠</div><span>Entregue</span></div>
+        </div>
+        <p style="font-size:0.875rem">Você receberá um e-mail com os detalhes e código de rastreio.</p>
+        <div style="margin-top:var(--space-xl);display:flex;gap:var(--space-md);justify-content:center">
+          <a href="index.html" class="btn btn-primary btn-lg">Continuar comprando</a>
+          <a href="#" class="btn btn-outline btn-lg">Rastrear pedido</a>
+        </div>
+      </div>
+
+      <!-- Panel 1: Identificação -->
+      <div class="checkout-panel" id="panel-1">
+        <div class="checkout-card">
+          <div class="checkout-card-header">
+            <div class="checkout-card-num">1</div>
+            <h3>Identificação</h3>
+          </div>
+          <div class="checkout-card-body">
+            <div class="form-grid">
+              <div class="form-group full">
+                <label class="form-label">Nome completo</label>
+                <input class="form-input" type="text" placeholder="Seu nome completo">
+              </div>
+              <div class="form-group">
+                <label class="form-label">E-mail</label>
+                <input class="form-input" type="email" placeholder="seu@email.com">
+              </div>
+              <div class="form-group">
+                <label class="form-label">CPF</label>
+                <input class="form-input" type="text" placeholder="000.000.000-00" maxlength="14">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Telefone</label>
+                <input class="form-input" type="text" placeholder="(00) 00000-0000">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="checkout-nav">
+          <a href="carrinho.html" class="btn btn-outline"><i class="fa-solid fa-arrow-left"></i> Voltar</a>
+          <button class="btn btn-primary btn-lg" onclick="goStep(2)">Continuar <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </div>
+
+      <!-- Panel 2: Entrega -->
+      <div class="checkout-panel" id="panel-2" style="display:none">
+        <div class="checkout-card">
+          <div class="checkout-card-header">
+            <div class="checkout-card-num">2</div>
+            <h3>Endereço de entrega</h3>
+          </div>
+          <div class="checkout-card-body">
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label">CEP</label>
+                <input class="form-input" type="text" id="checkout-cep" placeholder="00000-000" maxlength="9">
+              </div>
+              <div class="form-group full" style="margin-top:-8px">
+                <small style="color:var(--accent);font-size:0.75rem;cursor:pointer">Não sei meu CEP</small>
+              </div>
+              <div class="form-group full">
+                <label class="form-label">Rua / Logradouro</label>
+                <input class="form-input" type="text" id="rua-input" placeholder="Nome da rua">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Número</label>
+                <input class="form-input" type="text" placeholder="123">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Complemento</label>
+                <input class="form-input" type="text" placeholder="Apto, bloco... (opcional)">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Bairro</label>
+                <input class="form-input" type="text" id="bairro-input" placeholder="Bairro">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Cidade</label>
+                <input class="form-input" type="text" id="cidade-input" placeholder="Cidade">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Estado</label>
+                <select class="form-input" id="estado-input">
+                  <option value="">Selecione</option>
+                  <option value="PR" selected>PR — Paraná</option>
+                  <option value="SP">SP — São Paulo</option>
+                  <option value="RJ">RJ — Rio de Janeiro</option>
+                  <option value="MG">MG — Minas Gerais</option>
+                  <option value="RS">RS — Rio Grande do Sul</option>
+                  <option value="SC">SC — Santa Catarina</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Shipping options -->
+            <div style="margin-top:var(--space-lg)">
+              <div class="form-label" style="margin-bottom:var(--space-sm)">Opção de frete</div>
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <label style="display:flex;align-items:center;gap:12px;padding:14px;border:1.5px solid var(--gray-200);border-radius:var(--radius-md);cursor:pointer;transition:border-color 0.2s">
+                  <input type="radio" name="frete" value="pac" style="accent-color:var(--accent)" checked>
+                  <i class="fa-solid fa-box" style="color:var(--gray-400)"></i>
+                  <div style="flex:1"><strong style="font-size:0.875rem">PAC — Correios</strong><div style="font-size:0.75rem;color:var(--gray-400)">5 a 8 dias úteis</div></div>
+                  <strong>R$ 18,90</strong>
+                </label>
+                <label style="display:flex;align-items:center;gap:12px;padding:14px;border:1.5px solid var(--accent);border-radius:var(--radius-md);cursor:pointer;background:rgba(255,107,43,0.04)">
+                  <input type="radio" name="frete" value="sedex" style="accent-color:var(--accent)">
+                  <i class="fa-solid fa-bolt" style="color:var(--accent)"></i>
+                  <div style="flex:1"><strong style="font-size:0.875rem">SEDEX — Correios</strong><div style="font-size:0.75rem;color:var(--gray-400)">2 a 3 dias úteis</div></div>
+                  <strong>R$ 32,50</strong>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="checkout-nav">
+          <button class="btn btn-outline" onclick="goStep(1)"><i class="fa-solid fa-arrow-left"></i> Voltar</button>
+          <button class="btn btn-primary btn-lg" onclick="goStep(3)">Continuar <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+      </div>
+
+      <!-- Panel 3: Pagamento -->
+      <div class="checkout-panel" id="panel-3" style="display:none">
+        <div class="checkout-card">
+          <div class="checkout-card-header">
+            <div class="checkout-card-num">3</div>
+            <h3>Forma de pagamento</h3>
+          </div>
+          <div class="checkout-card-body">
+            <div class="payment-tabs">
+              <button class="payment-tab active" data-pay="pix" onclick="showPayment('pix',this)">
+                <i class="fa-brands fa-pix"></i> PIX
+              </button>
+              <button class="payment-tab" data-pay="card" onclick="showPayment('card',this)">
+                <i class="fa-solid fa-credit-card"></i> Cartão
+              </button>
+              <button class="payment-tab" data-pay="boleto" onclick="showPayment('boleto',this)">
+                <i class="fa-solid fa-barcode"></i> Boleto
+              </button>
+            </div>
+
+            <!-- PIX -->
+            <div class="payment-panel pix-panel active" id="pay-pix">
+              <div style="background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.3);border-radius:var(--radius-md);padding:var(--space-md);margin-bottom:var(--space-lg);font-size:0.875rem;color:var(--success);font-weight:600">
+                🎉 5% de desconto no PIX! Valor final: <strong>R$ 131,80</strong>
+              </div>
+              <div class="pix-qr"><i class="fa-solid fa-qrcode"></i><span>QR Code do PIX</span></div>
+              <p style="font-size:0.8rem;color:var(--gray-500);margin-bottom:var(--space-sm)">Ou copie o código:</p>
+              <div class="pix-code">00020126580014BR.GOV.BCB.PIX0136uniq@pagamento.com.br520400005303986</div>
+              <button class="btn btn-outline btn-sm" onclick="showToast('Código PIX copiado!','success')">
+                <i class="fa-regular fa-copy"></i> Copiar código
+              </button>
+            </div>
+
+            <!-- Cartão -->
+            <div class="payment-panel" id="pay-card">
+              <div class="form-grid cols-1">
+                <div class="form-group">
+                  <label class="form-label">Número do cartão</label>
+                  <input class="form-input" type="text" placeholder="0000 0000 0000 0000" maxlength="19" id="card-num">
+                </div>
+              </div>
+              <div class="form-grid" style="margin-top:var(--space-md)">
+                <div class="form-group">
+                  <label class="form-label">Nome no cartão</label>
+                  <input class="form-input" type="text" placeholder="COMO NO CARTÃO">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Validade</label>
+                  <input class="form-input" type="text" placeholder="MM/AA" maxlength="5">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">CVV</label>
+                  <input class="form-input" type="text" placeholder="000" maxlength="4">
+                </div>
+              </div>
+              <div style="margin-top:var(--space-md)">
+                <label class="form-label">Parcelamento</label>
+                <select class="form-input" style="margin-top:6px">
+                  <option>1x de R$ 138,80 sem juros</option>
+                  <option>2x de R$ 69,40 sem juros</option>
+                  <option>3x de R$ 46,27 sem juros</option>
+                  <option>6x de R$ 23,13 sem juros</option>
+                  <option>12x de R$ 12,37 com juros</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Boleto -->
+            <div class="payment-panel" id="pay-boleto" style="text-align:center;padding:var(--space-lg)">
+              <div style="font-size:3rem;margin-bottom:var(--space-md)">🧾</div>
+              <h4 style="font-size:1rem;margin-bottom:var(--space-sm)">Pagamento via Boleto Bancário</h4>
+              <p style="font-size:0.875rem;color:var(--gray-500);margin-bottom:var(--space-lg)">
+                O boleto vence em <strong>3 dias úteis</strong>. Após a confirmação do pagamento, seu pedido é processado em até 2 dias úteis.
+              </p>
+              <div style="background:var(--gray-100);padding:var(--space-md);border-radius:var(--radius-md);font-family:monospace;font-size:0.75rem;color:var(--gray-500);word-break:break-all;margin-bottom:var(--space-md)">
+                23790.00000 00000.000000 00000.000000 1 00000000013880
+              </div>
+              <button class="btn btn-outline btn-sm" onclick="showToast('Código de barras copiado!','success')">
+                <i class="fa-regular fa-copy"></i> Copiar código de barras
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="checkout-nav">
+          <button class="btn btn-outline" onclick="goStep(2)"><i class="fa-solid fa-arrow-left"></i> Voltar</button>
+          <button class="btn btn-primary btn-lg" onclick="confirmOrder()">
+            <i class="fa-solid fa-lock"></i> Confirmar Pedido
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Order Summary -->
+    <div class="order-summary">
+      <h3>Resumo do pedido</h3>
+      <div class="order-items">
+        <div class="order-item">
+          <img class="order-item-img" src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=100&q=70" alt="Básica Premium">
+          <div class="order-item-info">
+            <div class="order-item-name">Básica Premium UNIQ</div>
+            <div class="order-item-meta">Branca · M · Qtd: 1</div>
+          </div>
+          <div class="order-item-price">R$ 59,90</div>
+        </div>
+        <div class="order-item">
+          <img class="order-item-img" src="https://images.unsplash.com/photo-1562157873-818bc0726f68?w=100&q=70" alt="Oversized">
+          <div class="order-item-info">
+            <div class="order-item-name">Oversized Preta</div>
+            <div class="order-item-meta">Preta · G · Qtd: 2</div>
+          </div>
+          <div class="order-item-price">R$ 159,80</div>
+        </div>
+      </div>
+      <div class="order-divider"></div>
+      <div class="order-row"><span>Subtotal</span><span>R$ 219,70</span></div>
+      <div class="order-row"><span>Frete</span><span>🎉 Grátis</span></div>
+      <div class="order-row"><span>Desconto</span><span>—</span></div>
+      <div class="order-row total"><span>Total</span><span>R$ 219,70</span></div>
+      <div style="margin-top:var(--space-md);padding:var(--space-md);background:var(--gray-50);border-radius:var(--radius-md);font-size:0.75rem;color:var(--gray-500)">
+        <i class="fa-solid fa-shield-halved" style="color:var(--success)"></i>
+        Seus dados estão protegidos com criptografia SSL de 256 bits.
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/main.js"></script>
+<script>
+let currentStep = 1;
+
+function goStep(step) {
+  document.querySelectorAll('.checkout-panel').forEach(p => p.style.display = 'none');
+  const panel = document.getElementById(`panel-${step}`);
+  if (panel) panel.style.display = 'block';
+
+  for (let i = 1; i <= 3; i++) {
+    const s = document.getElementById(`step-${i}`);
+    const c = document.getElementById(`circle-${i}`);
+    s.classList.remove('active', 'done');
+    if (i < step) {
+      s.classList.add('done');
+      c.innerHTML = '<i class="fa-solid fa-check" style="font-size:0.75rem"></i>';
+    } else if (i === step) {
+      s.classList.add('active');
+      c.textContent = i;
+    } else {
+      c.textContent = i;
+    }
+    if (i < 3) {
+      const line = document.getElementById(`line-${i}`);
+      line.classList.toggle('done', i < step);
+    }
+  }
+  currentStep = step;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showPayment(type, btn) {
+  document.querySelectorAll('.payment-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.payment-panel').forEach(p => { p.classList.remove('active'); p.style.display = 'none'; });
+  btn.classList.add('active');
+  const panel = document.getElementById(`pay-${type}`);
+  panel.classList.add('active');
+  panel.style.display = type === 'pix' ? 'block' : 'block';
+  if (type === 'pix') panel.style.textAlign = 'center';
+}
+
+function confirmOrder() {
+  const btn = event.target;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processando...';
+  btn.disabled = true;
+
+  setTimeout(() => {
+    document.querySelectorAll('.checkout-panel').forEach(p => p.style.display = 'none');
+    document.getElementById('stepper').style.display = 'none';
+    const success = document.getElementById('success-screen');
+    success.classList.add('show');
+    const code = 'UNIQ-2026-' + Math.random().toString(36).substr(2,6).toUpperCase();
+    document.getElementById('order-code').textContent = code;
+    // Clear cart
+    if (typeof saveCart === 'function') saveCart([]);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, 2000);
+}
+
+// Card number formatting
+document.getElementById('card-num')?.addEventListener('input', (e) => {
+  let v = e.target.value.replace(/\D/g,'').slice(0,16);
+  v = v.replace(/(.{4})/g,'$1 ').trim();
+  e.target.value = v;
+});
+
+// CEP auto-fill simulation
+document.getElementById('checkout-cep')?.addEventListener('input', (e) => {
+  let v = e.target.value.replace(/\D/g,'');
+  if (v.length>5) v = v.slice(0,5)+'-'+v.slice(5,8);
+  e.target.value = v;
+  if (v.replace(/\D/g,'').length === 8) {
+    setTimeout(() => {
+      document.getElementById('rua-input').value = 'Rua das Flores';
+      document.getElementById('bairro-input').value = 'Centro';
+      document.getElementById('cidade-input').value = 'Curitiba';
+      document.getElementById('estado-input').value = 'PR';
+    }, 600);
+  }
+});
+
+// Init payment panels
+document.querySelectorAll('.payment-panel').forEach(p => {
+  if (!p.classList.contains('active')) p.style.display = 'none';
+});
+</script>
+</body>
+</html>

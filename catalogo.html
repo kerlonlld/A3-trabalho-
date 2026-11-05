@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogo — UNIQ</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👕</text></svg>">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/catalogo.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<div id="scroll-progress"></div>
+
+<!-- NAVBAR -->
+<nav class="navbar scrolled">
+  <div class="navbar-inner">
+    <a href="index.html" class="navbar-logo">UN<span>IQ</span></a>
+    <ul class="navbar-links">
+      <li><a href="index.html">Início</a></li>
+      <li><a href="catalogo.html" class="active">Catálogo</a></li>
+      <li><a href="produto.html">Customizar</a></li>
+      <li><a href="sobre.html">Sobre</a></li>
+    </ul>
+    <div class="navbar-actions">
+      <a href="#" class="navbar-icon-btn"><i class="fa-solid fa-magnifying-glass"></i></a>
+      <a href="login.html" class="navbar-icon-btn"><i class="fa-regular fa-user"></i></a>
+      <a href="carrinho.html" class="navbar-icon-btn">
+        <i class="fa-solid fa-bag-shopping"></i>
+        <span class="cart-badge">0</span>
+      </a>
+      <a href="produto.html" class="btn btn-primary btn-sm navbar-cta">
+        <i class="fa-solid fa-wand-magic-sparkles"></i> Personalizar
+      </a>
+      <div class="hamburger"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+</nav>
+<div class="mobile-menu">
+  <a href="index.html">Início</a>
+  <a href="catalogo.html">Catálogo</a>
+  <a href="produto.html">Customizar</a>
+  <a href="sobre.html">Sobre</a>
+  <a href="login.html">Entrar</a>
+  <a href="carrinho.html" style="color:var(--accent)">🛍️ Carrinho</a>
+</div>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="container">
+    <div class="breadcrumb">
+      <a href="index.html">Início</a>
+      <span class="breadcrumb-sep">›</span>
+      <span>Catálogo</span>
+    </div>
+    <div class="page-header-row">
+      <div>
+        <h1 class="page-title">Catálogo de Camisetas</h1>
+        <p class="page-subtitle">Escolha o modelo perfeito e personalize com sua arte</p>
+      </div>
+      <div class="catalog-sort">
+        <label>Ordenar por</label>
+        <select id="sort-select" class="sort-select">
+          <option value="relevance">Relevância</option>
+          <option value="price-asc">Menor preço</option>
+          <option value="price-desc">Maior preço</option>
+          <option value="new">Mais novos</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="catalog-layout container">
+
+  <!-- Sidebar Filters -->
+  <aside class="catalog-sidebar">
+    <div class="sidebar-header">
+      <h3>Filtros</h3>
+      <button class="clear-filters-btn" id="clear-filters">Limpar todos</button>
+    </div>
+
+    <!-- Modelo -->
+    <div class="filter-group">
+      <div class="filter-group-header">
+        <h4>Modelo</h4>
+        <i class="fa-solid fa-chevron-down filter-toggle"></i>
+      </div>
+      <div class="filter-group-body">
+        <label class="filter-checkbox">
+          <input type="checkbox" data-filter="model" value="basico">
+          <span class="checkbox-custom"></span>
+          Básico
+        </label>
+        <label class="filter-checkbox">
+          <input type="checkbox" data-filter="model" value="oversized">
+          <span class="checkbox-custom"></span>
+          Oversized
+        </label>
+        <label class="filter-checkbox">
+          <input type="checkbox" data-filter="model" value="cropped">
+          <span class="checkbox-custom"></span>
+          Cropped
+        </label>
+        <label class="filter-checkbox">
+          <input type="checkbox" data-filter="model" value="polo">
+          <span class="checkbox-custom"></span>
+          Polo
+        </label>
+      </div>
+    </div>
+
+    <!-- Cor -->
+    <div class="filter-group">
+      <div class="filter-group-header">
+        <h4>Cor</h4>
+        <i class="fa-solid fa-chevron-down filter-toggle"></i>
+      </div>
+      <div class="filter-group-body">
+        <div class="filter-colors">
+          <button class="filter-swatch" data-filter="color" data-value="branca" style="background:#FFFFFF; border: 2px solid #ddd;" title="Branca"></button>
+          <button class="filter-swatch" data-filter="color" data-value="preta"  style="background:#1A1A1A;" title="Preta"></button>
+          <button class="filter-swatch" data-filter="color" data-value="cinza"  style="background:#9E9E9E;" title="Cinza"></button>
+          <button class="filter-swatch" data-filter="color" data-value="azul"   style="background:#3B82F6;" title="Azul"></button>
+          <button class="filter-swatch" data-filter="color" data-value="verde"  style="background:#22C55E;" title="Verde"></button>
+          <button class="filter-swatch" data-filter="color" data-value="vermelha" style="background:#EF4444;" title="Vermelha"></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tamanho -->
+    <div class="filter-group">
+      <div class="filter-group-header">
+        <h4>Tamanho</h4>
+        <i class="fa-solid fa-chevron-down filter-toggle"></i>
+      </div>
+      <div class="filter-group-body">
+        <div class="filter-sizes">
+          <button class="filter-size" data-filter="size" data-value="P">P</button>
+          <button class="filter-size" data-filter="size" data-value="M">M</button>
+          <button class="filter-size" data-filter="size" data-value="G">G</button>
+          <button class="filter-size" data-filter="size" data-value="GG">GG</button>
+          <button class="filter-size" data-filter="size" data-value="XG">XG</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Preço -->
+    <div class="filter-group">
+      <div class="filter-group-header">
+        <h4>Faixa de Preço</h4>
+        <i class="fa-solid fa-chevron-down filter-toggle"></i>
+      </div>
+      <div class="filter-group-body">
+        <label class="filter-checkbox">
+          <input type="checkbox" data-filter="price" value="0-60">
+          <span class="checkbox-custom"></span>
+          Até R$ 60
+        </label>
+        <label class="filter-checkbox">
+          <input type="checkbox" data-filter="price" value="60-80">
+          <span class="checkbox-custom"></span>
+          R$ 60 – R$ 80
+        </label>
+        <label class="filter-checkbox">
+          <input type="checkbox" data-filter="price" value="80-120">
+          <span class="checkbox-custom"></span>
+          R$ 80 – R$ 120
+        </label>
+        <label class="filter-checkbox">
+          <input type="checkbox" data-filter="price" value="120+">
+          <span class="checkbox-custom"></span>
+          Acima de R$ 120
+        </label>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Products -->
+  <div class="catalog-main">
+    <!-- Active filters -->
+    <div class="active-filters" id="active-filters"></div>
+
+    <!-- Results count -->
+    <div class="results-info">
+      <span id="results-count">12 produtos encontrados</span>
+      <div class="view-toggle">
+        <button class="view-btn active" data-view="grid" title="Grade"><i class="fa-solid fa-grip"></i></button>
+        <button class="view-btn" data-view="list" title="Lista"><i class="fa-solid fa-list"></i></button>
+      </div>
+    </div>
+
+    <!-- Grid -->
+    <div class="catalog-grid" id="catalog-grid">
+      <!-- Rendered by JS -->
+    </div>
+
+    <!-- Empty state -->
+    <div class="empty-state" id="empty-state" style="display:none;">
+      <div class="empty-emoji">🔍</div>
+      <h3>Nenhum produto encontrado</h3>
+      <p>Tente remover alguns filtros para ver mais resultados.</p>
+      <button class="btn btn-primary" id="clear-filters-empty">Limpar filtros</button>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer" style="margin-top: var(--space-3xl);">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="navbar-logo">UN<span>IQ</span></span>
+        <p>Plataforma de e-commerce especializada em camisetas personalizadas com tecnologia DTG/DTF.</p>
+        <div class="footer-socials">
+          <a href="#" class="footer-social-btn"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" class="footer-social-btn"><i class="fa-brands fa-tiktok"></i></a>
+          <a href="#" class="footer-social-btn"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>
+      </div>
+      <div class="footer-col"><h4>Loja</h4><ul>
+        <li><a href="catalogo.html">Catálogo</a></li>
+        <li><a href="produto.html">Customizar</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Suporte</h4><ul>
+        <li><a href="#">Rastrear pedido</a></li>
+        <li><a href="#">Fale conosco</a></li>
+      </ul></div>
+      <div class="footer-col"><h4>Empresa</h4><ul>
+        <li><a href="sobre.html">Sobre a UNIQ</a></li>
+        <li><a href="#">Privacidade (LGPD)</a></li>
+      </ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 UNIQ. Todos os direitos reservados.</span>
+      <div class="footer-badges">
+        <span class="footer-badge">🔒 SSL</span>
+        <span class="footer-badge">💳 PIX • Cartão • Boleto</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script src="js/catalogo.js"></script>
+</body>
+</html>
